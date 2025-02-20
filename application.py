@@ -1,55 +1,41 @@
-import tkinter as tk
+stationary_items = {}
 
-class Calculator(tk.Tk):
-    def _init_(self):
-        super()._init_()
+def add_item():
+    item_name = input("Enter the name of the item: ")
+    brand_name = input("Enter the brand of the item: ")
+    stationary_items[item_name] = brand_name
+    print("Item added successfully!")
 
-        self.title("Calculator")
-        self.geometry("400x600")
-        
-        self.expression = ""
-        self.input_var = tk.StringVar()
+def delete_item():
+    item_name = input("Enter the name of the item to delete: ")
+    if item_name in stationary_items:
+        del stationary_items[item_name]
+        print("Item deleted successfully!")
+    else:
+        print("Item not found!")
 
-        self.create_widgets()
+def display_items():
+    print("Stationary Items:")
+    for item, brand in stationary_items.item():
+        print(f"{item} - {brand}")
 
-    def create_widgets(self):
-        # Entry widget to display expressions and results
-        entry = tk.Entry(self, textvariable=self.input_var, font=("Arial", 24), bd=10, insertwidth=2, width=14, borderwidth=4)
-        entry.grid(row=0, column=0, columnspan=4)
+while True:
+    print("Menu:")
+    print("1. Add item")
+    print("2. Delete item")
+    print("3. Display items")
+    print("4. Exit")
 
-        # Button definitions
-        buttons = [
-            '7', '8', '9', '/',
-            '4', '5', '6', '*',
-            '1', '2', '3', '-',
-            '0', 'C', '=', '+'
-        ]
+    choice = input("Enter your choice: ")
 
-        # Creating buttons dynamically
-        row_val = 1
-        col_val = 0
-        for button in buttons:
-            action = lambda x=button: self.on_button_click(x)
-            tk.Button(self, text=button, padx=20, pady=20, font=("Arial", 18), command=action).grid(row=row_val, column=col_val)
-
-            col_val += 1
-            if col_val > 3:
-                col_val = 0
-                row_val += 1
-
-    def on_button_click(self, char):
-        if char == 'C':
-            self.expression = ""
-        elif char == '=':
-            try:
-                self.expression = str(eval(self.expression))
-            except Exception as e:
-                self.expression = "Error"
-        else:
-            self.expression += str(char)
-        
-        self.input_var.set(self.expression)
-
-if __name__ == "_main_":
-    app = Calculator()
-    app.mainloop()
+    if choice == "1":
+        add_item()
+    elif choice == "2":
+        delete_item()
+    elif choice == "3":
+        display_items()
+    elif choice == "4":
+        print("Exiting...")
+        break
+    else:
+        print("Invalid choice. Please try again.")
